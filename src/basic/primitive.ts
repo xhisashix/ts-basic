@@ -1,13 +1,13 @@
-export default function primitiveSample () {
-  let name: String = 'World'
+export default function primitiveSample() {
+  const name = 'World'
   console.log(`Hello ${name}!`)
 
-  let num: Number = 123
+  const num = 123
   console.log(`num: ${num}`)
 
-  let bool: Boolean = true
+  const bool = true
   console.log(`bool: ${bool}`)
 
-  const isOver18: Boolean = num <= 100
+  const isOver18: boolean = num <= 100
   console.log(`isOver18: ${isOver18}`)
 }
