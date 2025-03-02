@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "module": "module",
   "scripts": {
     "build": "webpack --mode=production",
     "start": "webpack-cli serve --mode development",
@@ -13,6 +14,7 @@
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.19.0",
     "@typescript-eslint/parser": "^5.19.0",
+    "copy-webpack-plugin": "^13.0.0",
     "eslint": "^8.13.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-prettier": "^4.0.0",

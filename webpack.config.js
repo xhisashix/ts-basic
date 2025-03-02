@@ -1,8 +1,9 @@
 const path = require('path')
+const CopyPlugin = require('copy-webpack-plugin')
 
 module.exports = {
   entry: {
-    bundle: './src/index.ts',
+    omikuji: './src/ts/omikuji.ts',
   },
   output: {
     path: path.join(__dirname, 'dist'),
@@ -26,4 +27,14 @@ module.exports = {
       },
     ],
   },
+  plugins: [
+    new CopyPlugin({
+      patterns: [
+        {
+          from: 'src/index.html',
+          to: 'index.html',
+        },
+      ],
+    }),
+  ],
 }
