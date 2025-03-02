@@ -4,6 +4,7 @@ const CopyPlugin = require('copy-webpack-plugin')
 module.exports = {
   entry: {
     omikuji: './src/ts/omikuji.ts',
+    janken: './src/ts/janken.ts',
   },
   output: {
     path: path.join(__dirname, 'dist'),
@@ -34,6 +35,10 @@ module.exports = {
           from: 'src/index.html',
           to: 'index.html',
         },
+        {
+          from: 'src/janken.html',
+          to: 'janken.html',
+        }
       ],
     }),
   ],

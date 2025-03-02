@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>じゃんけんアプリ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="janken.js" defer></script>
+</head>
+
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+  <div class="bg-white rounded-lg shadow-lg p-8 max-w-md w-full">
+    <h1 class="text-3xl font-bold mb-6 text-center text-indigo-700">じゃんけんアプリ</h1>
+
+    <div class="mb-6">
+      <h2 class="text-xl font-semibold mb-2 text-gray-700">あなたの選択</h2>
+      <div class="flex justify-between">
+        <button id="rock"
+          class="choice-btn bg-indigo-500 hover:bg-indigo-600 text-white py-3 px-6 rounded-lg transition duration-200 flex flex-col items-center">
+          <span class="text-2xl mb-1">✊</span>
+          <span>グー</span>
+        </button>
+        <button id="paper"
+          class="choice-btn bg-indigo-500 hover:bg-indigo-600 text-white py-3 px-6 rounded-lg transition duration-200 flex flex-col items-center">
+          <span class="text-2xl mb-1">✋</span>
+          <span>パー</span>
+        </button>
+        <button id="scissors"
+          class="choice-btn bg-indigo-500 hover:bg-indigo-600 text-white py-3 px-6 rounded-lg transition duration-200 flex flex-col items-center">
+          <span class="text-2xl mb-1">✌️</span>
+          <span>チョキ</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="border-t border-b border-gray-200 py-6 mb-6">
+      <div class="flex justify-between items-center">
+        <div class="text-center w-1/3">
+          <h3 class="text-lg font-medium mb-2 text-gray-700">あなた</h3>
+          <div id="player-hand" class="text-5xl min-h-[60px]">❓</div>
+        </div>
+        <div class="text-center w-1/3">
+          <div id="result" class="text-2xl font-bold text-gray-800 min-h-[40px]"></div>
+        </div>
+        <div class="text-center w-1/3">
+          <h3 class="text-lg font-medium mb-2 text-gray-700">コンピュータ</h3>
+          <div id="computer-hand" class="text-5xl min-h-[60px]">❓</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center">
+      <div class="mb-4">
+        <h3 class="text-lg font-semibold text-gray-700">成績</h3>
+        <div class="flex justify-center gap-4 mt-2">
+          <div class="bg-green-100 px-4 py-2 rounded">
+            <p class="text-green-800">勝ち: <span id="wins">0</span></p>
+          </div>
+          <div class="bg-gray-100 px-4 py-2 rounded">
+            <p class="text-gray-800">引き分け: <span id="draws">0</span></p>
+          </div>
+          <div class="bg-red-100 px-4 py-2 rounded">
+            <p class="text-red-800">負け: <span id="losses">0</span></p>
+          </div>
+        </div>
+      </div>
+      <button id="reset" class="mt-4 bg-gray-500 hover:bg-gray-600 text-white py-2 px-4 rounded">
+        リセット
+      </button>
+    </div>
+  </div>
+</body>
+
+</html>
