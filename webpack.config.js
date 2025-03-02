@@ -5,6 +5,7 @@ module.exports = {
   entry: {
     omikuji: './src/ts/omikuji.ts',
     janken: './src/ts/janken.ts',
+    calc: './src/ts/calc.ts',
   },
   output: {
     path: path.join(__dirname, 'dist'),
@@ -38,7 +39,11 @@ module.exports = {
         {
           from: 'src/janken.html',
           to: 'janken.html',
-        }
+        },
+        {
+          from: 'src/calc.html',
+          to: 'calc.html',
+        },
       ],
     }),
   ],
