@@ -10,75 +10,93 @@
 </head>
 
 <body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
-  <div class="bg-white rounded-xl shadow-lg max-w-md w-full overflow-hidden">
-    <!-- 計算機ヘッダー -->
-    <div class="bg-gray-800 p-4">
-      <h1 class="text-white text-center text-xl font-bold">計算機</h1>
-    </div>
+  <div class="flex flex-col md:flex-row gap-4 max-w-4xl w-full">
+    <!-- 計算機本体 -->
+    <div class="bg-white rounded-xl shadow-lg md:w-1/2 overflow-hidden">
+      <!-- 計算機ヘッダー -->
+      <div class="bg-gray-800 p-4">
+        <h1 class="text-white text-center text-xl font-bold">計算機</h1>
+      </div>
 
-    <!-- 表示部分 -->
-    <div class="p-4 bg-gray-700">
-      <div id="display"
-        class="bg-gray-200 p-4 text-right text-2xl font-mono h-16 flex items-center justify-end overflow-hidden rounded-md">
-        <div id="previous-operation" class="text-sm text-gray-600 absolute top-2 right-4"></div>
-        <div id="current-input">0</div>
+      <!-- 表示部分 -->
+      <div class="p-4 bg-gray-700">
+        <div id="display"
+          class="bg-gray-200 p-4 text-right text-2xl font-mono h-16 flex items-center justify-end overflow-hidden rounded-md">
+          <div id="previous-operation" class="text-sm text-gray-600 absolute top-2 right-4"></div>
+          <div id="current-input">0</div>
+        </div>
+      </div>
+
+      <!-- ボタン部分 -->
+      <div class="grid grid-cols-4 gap-1 p-4 bg-gray-800">
+        <!-- 1行目 -->
+        <button class="function-btn bg-red-500 hover:bg-red-600 text-white p-4 rounded-md font-bold"
+          data-action="clear">C</button>
+        <button class="function-btn bg-gray-600 hover:bg-gray-700 text-white p-4 rounded-md font-bold"
+          data-action="backspace">←</button>
+        <button class="operation-btn bg-yellow-500 hover:bg-yellow-600 text-white p-4 rounded-md font-bold"
+          data-operation="%">%</button>
+        <button class="operation-btn bg-yellow-500 hover:bg-yellow-600 text-white p-4 rounded-md font-bold"
+          data-operation="/">÷</button>
+
+        <!-- 2行目 -->
+        <button class="number-btn bg-gray-500 hover:bg-gray-600 text-white p-4 rounded-md font-bold"
+          data-number="7">7</button>
+        <button class="number-btn bg-gray-500 hover:bg-gray-600 text-white p-4 rounded-md font-bold"
+          data-number="8">8</button>
+        <button class="number-btn bg-gray-500 hover:bg-gray-600 text-white p-4 rounded-md font-bold"
+          data-number="9">9</button>
+        <button class="operation-btn bg-yellow-500 hover:bg-yellow-600 text-white p-4 rounded-md font-bold"
+          data-operation="*">×</button>
+
+        <!-- 3行目 -->
+        <button class="number-btn bg-gray-500 hover:bg-gray-600 text-white p-4 rounded-md font-bold"
+          data-number="4">4</button>
+        <button class="number-btn bg-gray-500 hover:bg-gray-600 text-white p-4 rounded-md font-bold"
+          data-number="5">5</button>
+        <button class="number-btn bg-gray-500 hover:bg-gray-600 text-white p-4 rounded-md font-bold"
+          data-number="6">6</button>
+        <button class="operation-btn bg-yellow-500 hover:bg-yellow-600 text-white p-4 rounded-md font-bold"
+          data-operation="-">−</button>
+
+        <!-- 4行目 -->
+        <button class="number-btn bg-gray-500 hover:bg-gray-600 text-white p-4 rounded-md font-bold"
+          data-number="1">1</button>
+        <button class="number-btn bg-gray-500 hover:bg-gray-600 text-white p-4 rounded-md font-bold"
+          data-number="2">2</button>
+        <button class="number-btn bg-gray-500 hover:bg-gray-600 text-white p-4 rounded-md font-bold"
+          data-number="3">3</button>
+        <button class="operation-btn bg-yellow-500 hover:bg-yellow-600 text-white p-4 rounded-md font-bold"
+          data-operation="+">+</button>
+
+        <!-- 5行目 -->
+        <button class="number-btn bg-gray-500 hover:bg-gray-600 text-white p-4 rounded-md font-bold" data-number="0"
+          style="grid-column: span 2;">0</button>
+        <button class="number-btn bg-gray-500 hover:bg-gray-600 text-white p-4 rounded-md font-bold"
+          data-number=".">.</button>
+        <button class="equals-btn bg-green-500 hover:bg-green-600 text-white p-4 rounded-md font-bold"
+          data-action="equals">=</button>
+      </div>
+
+      <!-- キーボード対応の説明 -->
+      <div class="p-3 bg-gray-200 text-center text-sm text-gray-600">
+        <p>キーボードでも入力できます (数字キー、+、-、*、/、Enter、Backspace、ESC)</p>
       </div>
     </div>
 
-    <!-- ボタン部分 -->
-    <div class="grid grid-cols-4 gap-1 p-4 bg-gray-800">
-      <!-- 1行目 -->
-      <button class="function-btn bg-red-500 hover:bg-red-600 text-white p-4 rounded-md font-bold"
-        data-action="clear">C</button>
-      <button class="function-btn bg-gray-600 hover:bg-gray-700 text-white p-4 rounded-md font-bold"
-        data-action="backspace">←</button>
-      <button class="operation-btn bg-yellow-500 hover:bg-yellow-600 text-white p-4 rounded-md font-bold"
-        data-operation="%">%</button>
-      <button class="operation-btn bg-yellow-500 hover:bg-yellow-600 text-white p-4 rounded-md font-bold"
-        data-operation="/">÷</button>
-
-      <!-- 2行目 -->
-      <button class="number-btn bg-gray-500 hover:bg-gray-600 text-white p-4 rounded-md font-bold"
-        data-number="7">7</button>
-      <button class="number-btn bg-gray-500 hover:bg-gray-600 text-white p-4 rounded-md font-bold"
-        data-number="8">8</button>
-      <button class="number-btn bg-gray-500 hover:bg-gray-600 text-white p-4 rounded-md font-bold"
-        data-number="9">9</button>
-      <button class="operation-btn bg-yellow-500 hover:bg-yellow-600 text-white p-4 rounded-md font-bold"
-        data-operation="*">×</button>
-
-      <!-- 3行目 -->
-      <button class="number-btn bg-gray-500 hover:bg-gray-600 text-white p-4 rounded-md font-bold"
-        data-number="4">4</button>
-      <button class="number-btn bg-gray-500 hover:bg-gray-600 text-white p-4 rounded-md font-bold"
-        data-number="5">5</button>
-      <button class="number-btn bg-gray-500 hover:bg-gray-600 text-white p-4 rounded-md font-bold"
-        data-number="6">6</button>
-      <button class="operation-btn bg-yellow-500 hover:bg-yellow-600 text-white p-4 rounded-md font-bold"
-        data-operation="-">−</button>
-
-      <!-- 4行目 -->
-      <button class="number-btn bg-gray-500 hover:bg-gray-600 text-white p-4 rounded-md font-bold"
-        data-number="1">1</button>
-      <button class="number-btn bg-gray-500 hover:bg-gray-600 text-white p-4 rounded-md font-bold"
-        data-number="2">2</button>
-      <button class="number-btn bg-gray-500 hover:bg-gray-600 text-white p-4 rounded-md font-bold"
-        data-number="3">3</button>
-      <button class="operation-btn bg-yellow-500 hover:bg-yellow-600 text-white p-4 rounded-md font-bold"
-        data-operation="+">+</button>
-
-      <!-- 5行目 -->
-      <button class="number-btn bg-gray-500 hover:bg-gray-600 text-white p-4 rounded-md font-bold" data-number="0"
-        style="grid-column: span 2;">0</button>
-      <button class="number-btn bg-gray-500 hover:bg-gray-600 text-white p-4 rounded-md font-bold"
-        data-number=".">.</button>
-      <button class="equals-btn bg-green-500 hover:bg-green-600 text-white p-4 rounded-md font-bold"
-        data-action="equals">=</button>
-    </div>
-
-    <!-- キーボード対応の説明 -->
-    <div class="p-3 bg-gray-200 text-center text-sm text-gray-600">
-      <p>キーボードでも入力できます (数字キー、+、-、*、/、Enter、Backspace、ESC)</p>
+    <!-- 計算履歴エリア -->
+    <div class="bg-white rounded-xl shadow-lg md:w-1/2 overflow-hidden">
+      <div class="bg-gray-800 p-4 flex justify-between items-center">
+        <h2 class="text-white text-xl font-bold">計算履歴</h2>
+        <button id="clear-history" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-sm">
+          履歴をクリア
+        </button>
+      </div>
+      <div id="history-log" class="p-4 h-[400px] overflow-y-auto bg-gray-100">
+        <div class="text-gray-500 text-center italic">
+          履歴はまだありません
+        </div>
+      </div>
     </div>
   </div>
 </body>

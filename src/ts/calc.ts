@@ -1,11 +1,20 @@
 // 計算機の操作タイプ
 type OperationType = '+' | '-' | '*' | '/' | '%'
 
+// 計算履歴のエントリ型
+interface HistoryEntry {
+  expression: string
+  result: string
+  timestamp: Date
+}
+
 class Calculator {
   // DOM要素
   private displayElement: HTMLElement | null
   private currentInputElement: HTMLElement | null
   private previousOperationElement: HTMLElement | null
+  private historyLogElement: HTMLElement | null
+  private clearHistoryButton: HTMLElement | null
   private numberButtons: NodeListOf<HTMLButtonElement>
   private operationButtons: NodeListOf<HTMLButtonElement>
   private functionButtons: NodeListOf<HTMLButtonElement>
@@ -16,12 +25,15 @@ class Calculator {
   private previousInput = ''
   private operation: OperationType | null = null
   private shouldResetDisplay = false
+  private history: HistoryEntry[] = []
 
   constructor() {
     // DOM要素の取得
     this.displayElement = document.getElementById('display')
     this.currentInputElement = document.getElementById('current-input')
     this.previousOperationElement = document.getElementById('previous-operation')
+    this.historyLogElement = document.getElementById('history-log')
+    this.clearHistoryButton = document.getElementById('clear-history')
     this.numberButtons = document.querySelectorAll('.number-btn')
     this.operationButtons = document.querySelectorAll('.operation-btn')
     this.functionButtons = document.querySelectorAll('.function-btn')
@@ -29,6 +41,9 @@ class Calculator {
 
     // イベントリスナーの設定
     this.setupEventListeners()
+
+    // ローカルストレージから履歴を読み込む
+    this.loadHistory()
   }
 
   // イベントリスナーの設定
@@ -69,6 +84,13 @@ class Calculator {
     if (this.equalsButton) {
       this.equalsButton.addEventListener('click', () => {
         this.calculate()
+      })
+    }
+
+    // 履歴クリアボタンのイベント
+    if (this.clearHistoryButton) {
+      this.clearHistoryButton.addEventListener('click', () => {
+        this.clearHistory()
       })
     }
 
@@ -150,13 +172,120 @@ class Calculator {
         return
     }
 
+    // 計算式と結果を履歴に追加
+    const operationSymbol = this.getOperationSymbol(this.operation)
+    const expression = `${this.previousInput} ${operationSymbol} ${this.currentInput}`
+    const formattedResult = this.formatNumber(result)
+
+    this.addToHistory({
+      expression,
+      result: formattedResult,
+      timestamp: new Date(),
+    })
+
     // 結果の表示
-    this.currentInput = this.formatNumber(result)
+    this.currentInput = formattedResult
     this.operation = null
     this.previousInput = ''
     this.shouldResetDisplay = true
 
     this.updateDisplay()
+  }
+
+  // 履歴に追加
+  private addToHistory(entry: HistoryEntry): void {
+    this.history.push(entry)
+    this.updateHistoryDisplay()
+    this.saveHistory()
+  }
+
+  // 履歴表示の更新
+  private updateHistoryDisplay(): void {
+    if (!this.historyLogElement) return
+
+    if (this.history.length === 0) {
+      this.historyLogElement.innerHTML = `
+        <div class="text-gray-500 text-center italic">
+          履歴はまだありません
+        </div>
+      `
+      return
+    }
+
+    // 履歴の表示（新しい計算を上に表示）
+    this.historyLogElement.innerHTML = this.history
+      .slice()
+      .reverse()
+      .map((entry, index) => {
+        const time = this.formatTime(entry.timestamp)
+        return `
+          <div class="bg-white p-3 rounded shadow mb-2 hover:bg-blue-50 transition-colors">
+            <div class="text-sm text-gray-500">${time}</div>
+            <div class="font-mono">
+              ${this.escapeHtml(entry.expression)} = <span class="font-bold text-blue-600">${this.escapeHtml(
+          entry.result
+        )}</span>
+            </div>
+          </div>
+        `
+      })
+      .join('')
+  }
+
+  // 履歴をクリア
+  private clearHistory(): void {
+    this.history = []
+    this.updateHistoryDisplay()
+    this.saveHistory()
+  }
+
+  // 時間のフォーマット
+  private formatTime(date: Date): string {
+    return date.toLocaleTimeString('ja-JP', {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    })
+  }
+
+  // HTMLエスケープ処理
+  private escapeHtml(text: string): string {
+    const map: Record<string, string> = {
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;',
+    }
+    return text.replace(/[&<>"']/g, (m) => map[m])
+  }
+
+  // 履歴をローカルストレージに保存
+  private saveHistory(): void {
+    try {
+      localStorage.setItem('calcHistory', JSON.stringify(this.history))
+    } catch (e) {
+      console.error('履歴の保存に失敗しました:', e)
+    }
+  }
+
+  // 履歴をローカルストレージから読み込み
+  private loadHistory(): void {
+    try {
+      const savedHistory = localStorage.getItem('calcHistory')
+      if (savedHistory) {
+        const parsedHistory = JSON.parse(savedHistory)
+        // 日付文字列をDateオブジェクトに変換
+        this.history = parsedHistory.map((entry: any) => ({
+          ...entry,
+          timestamp: new Date(entry.timestamp),
+        }))
+        this.updateHistoryDisplay()
+      }
+    } catch (e) {
+      console.error('履歴の読み込みに失敗しました:', e)
+      this.history = []
+    }
   }
 
   // クリア処理
