@@ -13,6 +13,7 @@ class Calculator {
   private displayElement: HTMLElement | null
   private currentInputElement: HTMLElement | null
   private previousOperationElement: HTMLElement | null
+  private expressionElement: HTMLElement | null
   private historyLogElement: HTMLElement | null
   private clearHistoryButton: HTMLElement | null
   private numberButtons: NodeListOf<HTMLButtonElement>
@@ -32,6 +33,7 @@ class Calculator {
     this.displayElement = document.getElementById('display')
     this.currentInputElement = document.getElementById('current-input')
     this.previousOperationElement = document.getElementById('previous-operation')
+    this.expressionElement = document.getElementById('expression')
     this.historyLogElement = document.getElementById('history-log')
     this.clearHistoryButton = document.getElementById('clear-history')
     this.numberButtons = document.querySelectorAll('.number-btn')
@@ -121,6 +123,7 @@ class Calculator {
     }
 
     this.updateDisplay()
+    this.updateExpressionDisplay() // リアルタイム表示の更新
   }
 
   // 演算子の処理
@@ -137,6 +140,7 @@ class Calculator {
     this.shouldResetDisplay = true
 
     this.updateDisplay()
+    this.updateExpressionDisplay() // リアルタイム表示の更新
   }
 
   // 計算の実行
@@ -172,11 +176,12 @@ class Calculator {
         return
     }
 
-    // 計算式と結果を履歴に追加
+    // 式の表示用に計算式を保存
     const operationSymbol = this.getOperationSymbol(this.operation)
     const expression = `${this.previousInput} ${operationSymbol} ${this.currentInput}`
     const formattedResult = this.formatNumber(result)
 
+    // 計算式と結果を履歴に追加
     this.addToHistory({
       expression,
       result: formattedResult,
@@ -190,6 +195,24 @@ class Calculator {
     this.shouldResetDisplay = true
 
     this.updateDisplay()
+    this.updateExpressionDisplay() // リアルタイム表示の更新
+  }
+
+  // 式の表示を更新
+  private updateExpressionDisplay(): void {
+    if (!this.expressionElement) return
+
+    // 現在の計算式を構築
+    let expressionText = ''
+
+    if (this.previousInput && this.operation) {
+      const operationSymbol = this.getOperationSymbol(this.operation)
+      expressionText = `${this.previousInput} ${operationSymbol} ${this.currentInput}`
+    } else {
+      expressionText = this.currentInput
+    }
+
+    this.expressionElement.textContent = expressionText
   }
 
   // 履歴に追加
@@ -295,6 +318,7 @@ class Calculator {
     this.operation = null
     this.shouldResetDisplay = false
     this.updateDisplay()
+    this.updateExpressionDisplay() // リアルタイム表示の更新
   }
 
   // バックスペース処理
@@ -305,6 +329,7 @@ class Calculator {
       this.currentInput = this.currentInput.slice(0, -1)
     }
     this.updateDisplay()
+    this.updateExpressionDisplay() // リアルタイム表示の更新
   }
 
   // 表示の更新
